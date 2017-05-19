@@ -1,5 +1,5 @@
 package ga
 
 type Mutator interface {
-	mutate(Individuum, int) Individuum
+	Mutate(<-chan Individuum, chan<- Individuum)
 }

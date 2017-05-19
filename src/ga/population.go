@@ -4,21 +4,36 @@ import "fmt"
 import "bytes"
 
 type Population struct {
-	individua []Individuum
-	age       int
+	individuals []Individuum
+	age         int
 }
 
 func GenerateStartPopulation(size int) Population {
+	population := GenerateEmtpyPopulation(size)
+	ch := make(chan Individuum, 10)
+	go func() {
+		for i:=0; i<size; i++ {
+			ch <- makeRandomIndividuum()
+		}
+	}()
+	population.collectIndividuals(ch)
+	return population
+}
+
+func GenerateEmtpyPopulation(size int) Population {
 	population := make([]Individuum, size)
-	for i := range population {
-		population[i] = makeRandomIndividuum()
-	}
 	return Population{population, 0}
+}
+
+func (pop *Population) collectIndividuals(chIndivuduals <-chan Individuum) {
+	for i:=0; i<cap(pop.individuals); i++ {
+		pop.individuals[i] = <-chIndivuduals
+	}
 }
 
 func (pop Population) findBest() (best Individuum, index int) {
 	minFitness := 1e9
-	for i, individuum := range pop.individua {
+	for i, individuum := range pop.individuals {
 		if fitness := individuum.getFitness(); fitness < minFitness {
 			minFitness = fitness
 			best = individuum
@@ -28,12 +43,12 @@ func (pop Population) findBest() (best Individuum, index int) {
 	return
 }
 
-func (pop Population) getSize() int {
-	return len(pop.individua)
+func (pop Population) GetSize() int {
+	return len(pop.individuals)
 }
 
-func (pop *Population) exchange(index int, individuum Individuum) {
-	pop.individua[index] = individuum
+func (pop *Population) increaseAge() {
+	pop.age++
 }
 
 func (pop Population) String() string {
@@ -41,7 +56,7 @@ func (pop Population) String() string {
 
 	ss.WriteString("Population:\n")
 	ss.WriteString(fmt.Sprintf("\t->Age: %d\n", pop.age))
-	ss.WriteString(fmt.Sprintf("\t->Popsize: %d\n", len(pop.individua)))
+	ss.WriteString(fmt.Sprintf("\t->Popsize: %d\n", len(pop.individuals)))
 	ss.WriteString("\t->Best Individuum:\n")
 	best, index := pop.findBest()
 	ss.WriteString(fmt.Sprintf("\t\t->Index: %d\n", index))

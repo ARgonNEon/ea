@@ -26,6 +26,7 @@ func (hill Hillclimber) Climb(initialValue []float64) []float64 {
 }
 
 func (hill Hillclimber) calculateNeighbors(point []float64, neighbors chan<- []float64) {
+	defer close(neighbors)
 	for i:=0; i<hill.Dim; i++ {
 		for _, sign := range []float64{-1, 1} {
 			neighbor := make([]float64, hill.Dim)
@@ -34,5 +35,4 @@ func (hill Hillclimber) calculateNeighbors(point []float64, neighbors chan<- []f
 			neighbors <- neighbor
 		}
 	}
-	close(neighbors)
 }

@@ -1,6 +1,6 @@
 package ga
 
-import "math"
+//import "math"
 
 type Optimizer interface {
 	Optimize() Individuum
@@ -19,13 +19,14 @@ func MakeGeneticAlgorithm() GeneticAlgorithm {
 
 func (ga GeneticAlgorithm) Optimize() Individuum {
 
-	pop := ga.population
-	for i := 0; i < Iterations; i++ {
-		pop = ga.recombiner.Recombine(pop)
+	//pop := ga.population
 
-		pop = ga.selector.Select(pop, func(individuum Individuum) float64 {
+	/*target_function := func(individuum Individuum) float64 {
 			return math.Exp(-individuum.getFitness())
-		})
+	}*/
+
+	for i := 0; i < Iterations; i++ {
+
 	}
 	return nil
 }
