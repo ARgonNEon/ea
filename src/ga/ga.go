@@ -22,15 +22,15 @@ func (ga GeneticAlgorithm) Optimize() Individuum {
 
 	pop := GenerateStartPopulation(Popsize)
 
-	parents := make(chan Individuum)
-	children := make(chan Individuum)
-	mutated := make(chan Individuum)
-	selected := make(chan Individuum)
-	quit := make(chan bool)
-
 	for i := 0; i < Iterations; i++ {
+		parents := make(chan Individuum)
+		children := make(chan Individuum)
+		mutated := make(chan Individuum)
+		selected := make(chan Individuum)
+		quit := make(chan bool)
+
 		go pop.streamIndividuals(parents, quit)
-		go ga.recombiner(parents, children)
+		go ga.recombiner(parents, children, Popsize)
 		go ga.mutator(children, mutated)
 		go ga.selector(mutated, selected,
 			func(individuum Individuum) float64 {
