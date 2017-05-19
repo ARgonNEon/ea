@@ -2,7 +2,6 @@ package ga
 
 import (
 	"math/rand"
-	"math"
 )
 
 type Recombine func(parents <-chan Individuum, children chan<- Individuum, popsize int)
@@ -22,7 +21,7 @@ func OnePointCrossOver(parents <-chan Individuum, children chan<- Individuum, po
 		child := MakeIndividuum(parent1)
 		for i := range child {
 			mask := 0x1FFFF >> uint(rand.Intn(16) + 1)
-			child[i] = parent2[i] & mask | parent1[i] & (mask^math.MaxUint32)
+			child[i] = parent2[i] & mask | parent1[i] & (mask^0xFFFFFFFF)
 		}
 		children <- child
 	}

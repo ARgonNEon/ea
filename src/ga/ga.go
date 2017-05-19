@@ -5,7 +5,7 @@ import "math"
 //import "math"
 
 type Optimizer interface {
-	Optimize() Individuum
+	Optimize() Population
 }
 
 type GeneticAlgorithm struct {
@@ -19,20 +19,30 @@ type GeneticAlgorithm struct {
 func MakeGeneticAlgorithm(popsize, iterations int) GeneticAlgorithm {
 	return GeneticAlgorithm{popsize,
 		iterations,
-		DummyMutator,
-		DummyRecombiner,
+		NonUniformMutator,
+		OnePointCrossOver,
 		DummySelector}
 }
 
-func (ga GeneticAlgorithm) Optimize() Individuum {
+func min(a, b int) int {
+	if a>b {
+		return b
+	}
+	return a
+}
+
+func (ga GeneticAlgorithm) Optimize() Population {
 
 	pop := GenerateStartPopulation(ga.Popsize)
 
+	channelSize := min(100, ga.Popsize)
+
 	for i := 1; i < ga.Iterations; i++ {
-		parents := make(chan Individuum)
-		children := make(chan Individuum)
-		mutated := make(chan Individuum)
-		selected := make(chan Individuum)
+
+		parents := make(chan Individuum, channelSize)
+		children := make(chan Individuum, channelSize)
+		mutated := make(chan Individuum, channelSize)
+		selected := make(chan Individuum, channelSize)
 		quit := make(chan bool)
 
 		go pop.streamIndividuals(parents, quit)
@@ -44,7 +54,6 @@ func (ga GeneticAlgorithm) Optimize() Individuum {
 			})
 		pop.collectIndividuals(selected)
 		quit <- true
-		pop.Analyze()
 	}
-	return nil
+	return pop
 }
