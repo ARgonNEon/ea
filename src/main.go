@@ -1,10 +1,8 @@
 package main
 
-import (
-	"fmt"
+import "fmt"
+import "ga"
 
-	"ga"
-)
 
 func main() {
 	pop := ga.GenerateStartPopulation(50)
