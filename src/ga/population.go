@@ -13,7 +13,7 @@ func GenerateStartPopulation(size int) Population {
 	ch := make(chan Individuum, 10)
 	go func() {
 		for i:=0; i<size; i++ {
-			ch <- makeRandomIndividuum()
+			ch <- makeRandomIndividuum(NGenes)
 		}
 	}()
 	population.collectIndividuals(ch)

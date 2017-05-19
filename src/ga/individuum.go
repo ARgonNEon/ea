@@ -16,8 +16,8 @@ type Fitness interface {
 
 type Individuum []int
 
-func makeRandomIndividuum() Individuum {
-	individuum := make([]int, NGenes)
+func makeRandomIndividuum(nGenes int) Individuum {
+	individuum := make([]int, nGenes)
 	for i := range individuum {
 		individuum[i] = rand.Intn(discretize.getMaxCode())
 	}
@@ -25,7 +25,7 @@ func makeRandomIndividuum() Individuum {
 }
 
 func (individuum Individuum) getFitness() float64 {
-	values := make([]float64, 0, NGenes)
+	values := make([]float64, 0, len(individuum))
 	for _, val := range individuum {
 		values = append(values, discretize.Code2Value(val))
 	}
