@@ -31,6 +31,22 @@ func (pop *Population) collectIndividuals(chIndivuduals <-chan Individuum) {
 	}
 }
 
+func (pop Population) streamIndividuals(chIndividuals chan<-Individuum, quit <-chan bool) {
+	index := 0
+	individuum := pop.individuals[index]; index++
+	for {
+		select {
+			case chIndividuals <- individuum:
+				individuum = pop.individuals[index%len(pop.individuals)]
+			case <-quit:
+				close(chIndividuals)
+				return
+		}
+		index++
+	}
+
+}
+
 func (pop Population) findBest() (best Individuum, index int) {
 	minFitness := 1e9
 	for i, individuum := range pop.individuals {
