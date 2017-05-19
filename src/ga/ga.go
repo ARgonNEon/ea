@@ -21,21 +21,15 @@ func MakeGeneticAlgorithm(popsize, iterations int) GeneticAlgorithm {
 		iterations,
 		NonUniformMutator,
 		OnePointCrossOver,
-		DummySelector}
+		RemainderStochasticSampling}
 }
 
-func min(a, b int) int {
-	if a>b {
-		return b
-	}
-	return a
-}
 
 func (ga GeneticAlgorithm) Optimize() Population {
 
 	pop := GenerateStartPopulation(ga.Popsize)
 
-	channelSize := min(100, ga.Popsize)
+	channelSize := int(math.Min(100, float64(ga.Popsize)))
 
 	for i := 1; i < ga.Iterations; i++ {
 

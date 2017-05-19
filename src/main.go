@@ -21,7 +21,7 @@ func demonstrateHillClimber() {
 
 func demonstrateGeneticAlgorithm() {
 	fmt.Println("Genetic Algorithm")
-	ga := ga.MakeGeneticAlgorithm(500, 1000)
+	ga := ga.MakeGeneticAlgorithm(500, 2000)
 	pop := ga.Optimize()
 	pop.Analyze()
 }
