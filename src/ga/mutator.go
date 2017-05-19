@@ -1,5 +1,3 @@
 package ga
 
-type Mutator interface {
-	Mutate(<-chan Individuum, chan<- Individuum)
-}
+type Mutate func(<-chan Individuum, chan<- Individuum)
