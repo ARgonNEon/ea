@@ -9,20 +9,26 @@ type Optimizer interface {
 }
 
 type GeneticAlgorithm struct {
+	Popsize	int
+	Iterations int
 	mutator    Mutate
 	recombiner Recombine
 	selector   Select
 }
 
-func MakeGeneticAlgorithm() GeneticAlgorithm {
-	return GeneticAlgorithm{nil, nil, nil}
+func MakeGeneticAlgorithm(popsize, iterations int) GeneticAlgorithm {
+	return GeneticAlgorithm{popsize,
+		iterations,
+		DummyMutator,
+		DummyRecombiner,
+		DummySelector}
 }
 
 func (ga GeneticAlgorithm) Optimize() Individuum {
 
-	pop := GenerateStartPopulation(Popsize)
+	pop := GenerateStartPopulation(ga.Popsize)
 
-	for i := 0; i < Iterations; i++ {
+	for i := 1; i < ga.Iterations; i++ {
 		parents := make(chan Individuum)
 		children := make(chan Individuum)
 		mutated := make(chan Individuum)
@@ -30,7 +36,7 @@ func (ga GeneticAlgorithm) Optimize() Individuum {
 		quit := make(chan bool)
 
 		go pop.streamIndividuals(parents, quit)
-		go ga.recombiner(parents, children, Popsize)
+		go ga.recombiner(parents, children, ga.Popsize)
 		go ga.mutator(children, mutated)
 		go ga.selector(mutated, selected,
 			func(individuum Individuum) float64 {
