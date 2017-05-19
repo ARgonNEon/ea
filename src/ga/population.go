@@ -29,6 +29,7 @@ func (pop *Population) collectIndividuals(chIndivuduals <-chan Individuum) {
 	for i:=0; i<cap(pop.individuals); i++ {
 		pop.individuals[i] = <-chIndivuduals
 	}
+	pop.age++
 }
 
 func (pop Population) streamIndividuals(chIndividuals chan<-Individuum, quit <-chan bool) {

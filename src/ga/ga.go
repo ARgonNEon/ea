@@ -9,9 +9,9 @@ type Optimizer interface {
 }
 
 type GeneticAlgorithm struct {
-	mutator    Mutator
-	recombiner Recombiner
-	selector   Selector
+	mutator    Mutate
+	recombiner Recombine
+	selector   Select
 }
 
 func MakeGeneticAlgorithm() GeneticAlgorithm {
@@ -30,14 +30,15 @@ func (ga GeneticAlgorithm) Optimize() Individuum {
 
 	for i := 0; i < Iterations; i++ {
 		go pop.streamIndividuals(parents, quit)
-		go ga.recombiner.Recombine(parents, children)
-		go ga.mutator.Mutate(children, mutated)
-		go ga.selector.Select(mutated, selected,
+		go ga.recombiner(parents, children)
+		go ga.mutator(children, mutated)
+		go ga.selector(mutated, selected,
 			func(individuum Individuum) float64 {
 				return math.Exp(-individuum.getFitness())
 			})
 		pop.collectIndividuals(selected)
 		quit <- true
+		pop.Analyze()
 	}
 	return nil
 }
