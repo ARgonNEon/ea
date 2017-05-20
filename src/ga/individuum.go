@@ -43,7 +43,7 @@ func (individuum Individuum) GetFitness() float64 {
 func (individuum Individuum) String() string {
 	var ss bytes.Buffer
 	ss.WriteString(fmt.Sprintf("Individuum {\n"))
-	ss.WriteString(fmt.Sprintf("\tPhenotype: %.2f\n", individuum.GetFitness()))
+	ss.WriteString(fmt.Sprintf("\tPhenotype: %.6f\n", individuum.GetFitness()))
 	ss.WriteString(fmt.Sprintf("\tGenotype: %v\n", []int(individuum)))
 	ss.WriteString(fmt.Sprintln("}"))
 	return ss.String()

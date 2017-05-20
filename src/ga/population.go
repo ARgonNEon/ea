@@ -68,9 +68,8 @@ func (pop Population) String() string {
 	ss.WriteString("\t->Best Individuum:\n")
 	best, index := pop.findBest()
 	ss.WriteString(fmt.Sprintf("\t\t->Index: %d\n", index))
-	ss.WriteString(fmt.Sprintf("\t\t->Phenotype: %.3f\n", best.GetFitness()))
-	ss.WriteString(fmt.Sprintf("\t\t->Genotype: "))
-	ss.WriteString(fmt.Sprintln(best))
+	ss.WriteString(fmt.Sprintf("\t\t->Phenotype: %.6f\n", best.GetFitness()))
+	ss.WriteString(fmt.Sprintf("\t\t->Genotype: %v\n", []int(best)))
 	return ss.String()
 }
 
