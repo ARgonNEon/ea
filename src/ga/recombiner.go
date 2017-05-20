@@ -13,7 +13,13 @@ func DummyRecombiner(parents <-chan Individuum, children chan<- Individuum, pops
 }
 
 func OnePointCrossOver(parents <-chan Individuum, children chan<- Individuum, popsize int) {
-	for i:=0; i<popsize; i++ {
+	i := 0
+	for {
+		if popsize > 0 {
+			if i >= popsize {
+				break
+			}
+		}
 		parent1 := <-parents
 		parent2 := <-parents
 		child := MakeIndividuum(parent1)
@@ -22,5 +28,6 @@ func OnePointCrossOver(parents <-chan Individuum, children chan<- Individuum, po
 			child[i] = parent2[i] & mask | parent1[i] & (mask^0xFFFFFFFF)
 		}
 		children <- child
+		i++
 	}
 }
