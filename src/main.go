@@ -30,7 +30,7 @@ func demonstrateGeneticAlgorithm() {
 	}
 	result := g.Optimize(func (individuum ga.Individuum) bool {
 		return individuum.GetFitness() < 0.05
-	}, true)
+	}, false)
 	fmt.Println()
 	fmt.Println("Result: ")
 	fmt.Println(result)

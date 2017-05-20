@@ -36,8 +36,10 @@ func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Individ
 			})
 		pop.collectIndividuals(selected)
 		best, _ := pop.findBest()
-		pop.Analyze()
-		if i++; optimized(best) || i>=ga.MaxIterations{
+		if verbose {
+			pop.Analyze()
+		}
+		if i++; optimized(best) || i >= ga.MaxIterations {
 			return best
 		}
 	}
