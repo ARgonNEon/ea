@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"ga"
+	"geneticalgorithm"
 	"hillclimber"
 	"ackley"
 )
@@ -30,14 +30,14 @@ func demonstrateHillClimber() {
 
 func demonstrateGeneticAlgorithm() {
 	fmt.Println("Genetic Algorithm")
-	g := ga.GeneticAlgorithm{
-		Popsize: 50,
+	g := geneticalgorithm.GeneticAlgorithm{
+		Popsize:       50,
 		MaxIterations: 25000,
-		Mutator: ga.AdaptiveGaussianMutator,
-		Recombiner: ga.OnePointCrossOver,
-		Selector: ga.RemainderStochasticSampling,
+		Mutator:       geneticalgorithm.AdaptiveGaussianMutator,
+		Recombiner:    geneticalgorithm.OnePointCrossOver,
+		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
-	result := g.Optimize(func (individuum ga.Individuum) bool {
+	result := g.Optimize(func (individuum geneticalgorithm.Individuum) bool {
 		return individuum.GetFitness() < 0.05
 	}, false)
 	fmt.Println()
@@ -48,14 +48,14 @@ func demonstrateGeneticAlgorithm() {
 
 func demonstratePipelinedGeneticAlgorithm() {
 	fmt.Println("Genetic Algorithm (Pipelined)")
-	g := ga.GeneticAlgorithm{
-		Popsize: 50,
+	g := geneticalgorithm.GeneticAlgorithm{
+		Popsize:       50,
 		MaxIterations: 1e9,
-		Mutator: ga.NonUniformMutator,
-		Recombiner: ga.OnePointCrossOver,
-		Selector: ga.RemainderStochasticSampling,
+		Mutator:       geneticalgorithm.NonUniformMutator,
+		Recombiner:    geneticalgorithm.OnePointCrossOver,
+		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
-	result := g.OptimizePipelined(func (individuum ga.Individuum) bool {
+	result := g.OptimizePipelined(func (individuum geneticalgorithm.Individuum) bool {
 		return individuum.GetFitness() < 0.05
 	}, false)
 	fmt.Println()

@@ -1,4 +1,4 @@
-package ga
+package geneticalgorithm
 
 const NGenes = 6
 const XMax = 40.0

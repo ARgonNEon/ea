@@ -1,4 +1,4 @@
-package ga
+package geneticalgorithm
 
 import "math/rand"
 
