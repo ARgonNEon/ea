@@ -22,8 +22,8 @@ func demonstrateHillClimber() {
 func demonstrateGeneticAlgorithm() {
 	fmt.Println("Genetic Algorithm")
 	g := ga.GeneticAlgorithm{
-		Popsize: 500,
-		MaxIterations: 10000,
+		Popsize: 50,
+		MaxIterations: 20000,
 		Mutator: ga.AdaptiveGaussianMutator,
 		Recombiner: ga.OnePointCrossOver,
 		Selector: ga.RemainderStochasticSampling,

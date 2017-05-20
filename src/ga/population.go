@@ -63,6 +63,6 @@ func (pop *Population) increaseAge() {
 func (pop Population) String() string {
 	best, index := pop.findBest()
 
-	return fmt.Sprintf("Population: [Age: %d, Popsize: %d, Best Individuum(%d): %v]",
+	return fmt.Sprintf("Population: [Age: %d, Popsize: %d, Best Individuum(index=%d): %v]",
 		pop.age, len(pop.individuals), index, best)
 }
