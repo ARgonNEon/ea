@@ -12,7 +12,11 @@ func main() {
 }
 
 func demonstrateHillClimber() {
-	climber := hillclimber.Hillclimber{1000, 1e-1, 6}
+	climber := hillclimber.Hillclimber{
+		Nmax: 1000,
+		Delta: 1e-1,
+		Dim: 6,
+	}
 	result := climber.Climb([]float64{5, 1, 9, 10, 1.5, 2.33})
 	fmt.Println("Hillclimber:")
 	fmt.Println("\tResult: ", result)
