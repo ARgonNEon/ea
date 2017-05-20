@@ -10,6 +10,7 @@ import (
 func main() {
 	demonstrateHillClimber()
 	demonstrateGeneticAlgorithm()
+	demonstratePipelinedGeneticAlgorithm()
 }
 
 func demonstrateHillClimber() {
@@ -22,6 +23,7 @@ func demonstrateHillClimber() {
 	fmt.Println("Hillclimber:")
 	fmt.Println("\tResult: ", result)
 	fmt.Println("\tValue: ", ackley.Ackley(result))
+	fmt.Println()
 }
 
 func demonstrateGeneticAlgorithm() {
@@ -34,11 +36,28 @@ func demonstrateGeneticAlgorithm() {
 		Selector: ga.RemainderStochasticSampling,
 	}
 	result := g.Optimize(func (individuum ga.Individuum) bool {
-		return individuum.GetFitness() < 0.1
-	}, false)
+		return individuum.GetFitness() < 0.05
+	}, true)
 	fmt.Println()
 	fmt.Println("Result: ")
 	fmt.Println(result)
+	fmt.Println()
+}
 
-
+func demonstratePipelinedGeneticAlgorithm() {
+	fmt.Println("Genetic Algorithm (Pipelined)")
+	g := ga.GeneticAlgorithm{
+		Popsize: 50,
+		MaxIterations: 1e9,
+		Mutator: ga.NonUniformMutator,
+		Recombiner: ga.OnePointCrossOver,
+		Selector: ga.RemainderStochasticSampling,
+	}
+	result := g.OptimizePipelined(func (individuum ga.Individuum) bool {
+		return individuum.GetFitness() < 0.05
+	}, true)
+	fmt.Println()
+	fmt.Println("Result: ")
+	fmt.Println(result)
+	fmt.Println()
 }

@@ -8,11 +8,11 @@ import (
 type IsOptimized func(individuum Individuum) bool
 
 type GeneticAlgorithm struct {
-	Popsize	int
+	Popsize       int
 	MaxIterations int
-	Mutator    Mutate
-	Recombiner Recombine
-	Selector   Select
+	Mutator       Mutate
+	Recombiner    Recombine
+	Selector      Select
 }
 
 func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Individuum {
@@ -45,39 +45,45 @@ func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Individ
 	}
 }
 
-func (ga GeneticAlgorithm) OptimizePipelined() Individuum {
+func (ga GeneticAlgorithm) OptimizePipelined(optimized IsOptimized, verbose bool) Individuum {
 	pop := GenerateStartPopulation(ga.Popsize)
 
-	ancient := make(chan Individuum, ga.Popsize)
-	parents := make(chan Individuum, ga.Popsize)
-	children := make(chan Individuum, ga.Popsize)
-	mutated := make(chan Individuum, ga.Popsize)
-	selected := make(chan Individuum, ga.Popsize)
-	loopback := make(chan Individuum, ga.Popsize)
-	result := make(chan Individuum)
+	channelSize := ga.Popsize / 4
+
+	ancient := make(chan Individuum)
+	parents := make(chan Individuum, channelSize)
+	children := make(chan Individuum, channelSize)
+	mutated := make(chan Individuum, channelSize)
+	selected := make(chan Individuum, channelSize)
+	loopback := make(chan Individuum, channelSize)
+	result := make(chan Individuum, 1)
 
 	go pop.streamIndividuals(ancient)
 	go loopbackTee(ancient, loopback, parents)
-	go ga.recombiner(parents, children)
-	go ga.mutator(children, mutated, MutateContext{0, 1})
-	go ga.selector(mutated, selected, int(ga.Popsize/2),
+	go ga.Recombiner(parents, children)
+	go ga.Mutator(children, mutated, MutateContext{0, 1})
+	go ga.Selector(mutated, selected, int(ga.Popsize/2),
 		func(individuum Individuum) float64 {
-			return math.Exp(-individuum.getFitness())
+			return math.Exp(-individuum.GetFitness())
 		})
 
 	info := make(chan AnalyzeInfo, 10)
-	go analyzeIndividuum(selected, loopback, result, info)
+	go analyzeIndividuum(selected, loopback, result, info, optimized)
 
+	best := 1e9
 	for f := range info {
-		fmt.Println(f)
+		if verbose && f.BestFitness < best {
+			best = f.BestFitness
+			fmt.Printf("New best fitness %.6f after %d individuals.\n", f.BestFitness, f.N)
+		}
 	}
 
-	return nil
+	return <-result
 }
 
 type AnalyzeInfo struct {
-	N           int64
-	BestFitness float64
+	N              int64
+	BestFitness    float64
 	CurrentFitness float64
 }
 
@@ -85,17 +91,24 @@ func (ai AnalyzeInfo) String() string {
 	return fmt.Sprintf("Individuum counter: %d, Best Fitness: %.3f, Current Fitness: %.3f", ai.N, ai.BestFitness, ai.CurrentFitness)
 }
 
-func analyzeIndividuum(in <-chan Individuum, out, result chan<- Individuum, info chan<- AnalyzeInfo) {
+func analyzeIndividuum(in <-chan Individuum, out, result chan<- Individuum, info chan<- AnalyzeInfo, optimized IsOptimized) {
+	defer close(out)
+	defer close(info)
 	best := 1e9
 	counter := int64(0)
 	for individuum := range in {
-		fitness := individuum.getFitness();
+		fitness := individuum.GetFitness();
 		if fitness < best {
 			best = fitness
+			if optimized(individuum) {
+				result <- individuum
+				info <- AnalyzeInfo{counter,best,fitness}
+				return
+			}
 		}
 		info <- AnalyzeInfo{
-			N:           counter,
-			BestFitness: best,
+			N:              counter,
+			BestFitness:    best,
 			CurrentFitness: fitness,
 		}
 		out <- individuum
