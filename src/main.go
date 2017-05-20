@@ -21,8 +21,19 @@ func demonstrateHillClimber() {
 
 func demonstrateGeneticAlgorithm() {
 	fmt.Println("Genetic Algorithm")
-	ga := ga.MakeGeneticAlgorithm(50, 1000)
-	//pop := ga.Optimize()
-	ga.OptimizePipelined()
-	//pop.Analyze()
+	g := ga.GeneticAlgorithm{
+		Popsize: 500,
+		MaxIterations: 10000,
+		Mutator: ga.AdaptiveGaussianMutator,
+		Recombiner: ga.OnePointCrossOver,
+		Selector: ga.RemainderStochasticSampling,
+	}
+	result := g.Optimize(func (individuum ga.Individuum) bool {
+		return individuum.GetFitness() < 0.05
+	}, true)
+	fmt.Println()
+	fmt.Println("Result: ")
+	fmt.Println(result)
+
+
 }
