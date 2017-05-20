@@ -1,11 +1,11 @@
 package geneticalgorithm
 
-import "math/rand"
-import "time"
-import "ackley"
 import (
 	"fmt"
 	"bytes"
+	"math/rand"
+	"time"
+	"ackley"
 )
 
 var discretize = NewStandardDiscretizer()

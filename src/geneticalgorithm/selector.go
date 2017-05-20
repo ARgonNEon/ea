@@ -1,7 +1,9 @@
 package geneticalgorithm
 
-import "math"
-import "math/rand"
+import (
+	"math"
+	"math/rand"
+)
 
 type OptimizeFunction func(Individuum) float64
 
