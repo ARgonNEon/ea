@@ -42,7 +42,7 @@ func (pop Population) streamIndividuals(chIndividuals chan<-Individuum) {
 func (pop Population) findBest() (best Individuum, index int) {
 	minFitness := 1e9
 	for i, individuum := range pop.individuals {
-		if fitness := individuum.getFitness(); fitness < minFitness {
+		if fitness := individuum.GetFitness(); fitness < minFitness {
 			minFitness = fitness
 			best = individuum
 			index = i
@@ -68,7 +68,7 @@ func (pop Population) String() string {
 	ss.WriteString("\t->Best Individuum:\n")
 	best, index := pop.findBest()
 	ss.WriteString(fmt.Sprintf("\t\t->Index: %d\n", index))
-	ss.WriteString(fmt.Sprintf("\t\t->Phenotype: %.3f\n", best.getFitness()))
+	ss.WriteString(fmt.Sprintf("\t\t->Phenotype: %.3f\n", best.GetFitness()))
 	ss.WriteString(fmt.Sprintf("\t\t->Genotype: "))
 	ss.WriteString(fmt.Sprintln(best))
 	return ss.String()
