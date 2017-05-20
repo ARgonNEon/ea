@@ -1,7 +1,8 @@
 package ga
 
-import "fmt"
-import "bytes"
+import (
+	"fmt"
+)
 
 type Population struct {
 	individuals []Individuum
@@ -60,19 +61,8 @@ func (pop *Population) increaseAge() {
 }
 
 func (pop Population) String() string {
-	var ss bytes.Buffer
-
-	ss.WriteString("Population:\n")
-	ss.WriteString(fmt.Sprintf("\t->Age: %d\n", pop.age))
-	ss.WriteString(fmt.Sprintf("\t->Popsize: %d\n", len(pop.individuals)))
-	ss.WriteString("\t->Best Individuum:\n")
 	best, index := pop.findBest()
-	ss.WriteString(fmt.Sprintf("\t\t->Index: %d\n", index))
-	ss.WriteString(fmt.Sprintf("\t\t->Phenotype: %.6f\n", best.GetFitness()))
-	ss.WriteString(fmt.Sprintf("\t\t->Genotype: %v\n", []int(best)))
-	return ss.String()
-}
 
-func (pop Population) Analyze() {
-	fmt.Print(pop)
+	return fmt.Sprintf("Population: [Age: %d, Popsize: %d, Best Individuum(%d): %v]",
+		pop.age, len(pop.individuals), index, best)
 }

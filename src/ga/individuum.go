@@ -3,10 +3,7 @@ package ga
 import "math/rand"
 import "time"
 import "ackley"
-import (
-	"bytes"
-	"fmt"
-)
+import "fmt"
 
 var discretize = NewStandardDiscretizer()
 
@@ -41,10 +38,5 @@ func (individuum Individuum) GetFitness() float64 {
 }
 
 func (individuum Individuum) String() string {
-	var ss bytes.Buffer
-	ss.WriteString(fmt.Sprintf("Individuum {\n"))
-	ss.WriteString(fmt.Sprintf("\tPhenotype: %.6f\n", individuum.GetFitness()))
-	ss.WriteString(fmt.Sprintf("\tGenotype: %v\n", []int(individuum)))
-	ss.WriteString(fmt.Sprintln("}"))
-	return ss.String()
+	return fmt.Sprintf("Individuum: [Phenotype: %.6f, Genotype %v]", individuum.GetFitness(), []int(individuum))
 }

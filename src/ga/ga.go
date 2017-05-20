@@ -1,6 +1,9 @@
 package ga
 
-import "math"
+import (
+	"math"
+	"fmt"
+)
 
 //import "math"
 
@@ -37,7 +40,7 @@ func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Individ
 		pop.collectIndividuals(selected)
 		best, _ := pop.findBest()
 		if verbose {
-			pop.Analyze()
+			fmt.Println(pop)
 		}
 		if i++; optimized(best) || i >= ga.MaxIterations {
 			return best
