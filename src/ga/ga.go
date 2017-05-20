@@ -5,8 +5,6 @@ import (
 	"fmt"
 )
 
-//import "math"
-
 type IsOptimized func(individuum Individuum) bool
 
 type GeneticAlgorithm struct {
@@ -21,14 +19,13 @@ func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Individ
 
 	pop := GenerateStartPopulation(ga.Popsize)
 
-	channelSize := int(math.Min(100, float64(ga.Popsize)))
 	i := 0
 	for {
 
-		parents := make(chan Individuum, channelSize)
-		children := make(chan Individuum, channelSize)
-		mutated := make(chan Individuum, channelSize)
-		selected := make(chan Individuum, channelSize)
+		parents := make(chan Individuum)
+		children := make(chan Individuum)
+		mutated := make(chan Individuum)
+		selected := make(chan Individuum)
 
 		go pop.streamIndividuals(parents)
 		go ga.Recombiner(parents, children)
