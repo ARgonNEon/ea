@@ -37,17 +37,15 @@ func (ga GeneticAlgorithm) Optimize() Population {
 		children := make(chan Individuum, channelSize)
 		mutated := make(chan Individuum, channelSize)
 		selected := make(chan Individuum, channelSize)
-		quit := make(chan bool)
 
-		go pop.streamIndividuals(parents, quit)
-		go ga.recombiner(parents, children, ga.Popsize)
+		go pop.streamIndividuals(parents)
+		go ga.recombiner(parents, children)
 		go ga.mutator(children, mutated, MutateContext{pop.age, ga.Iterations})
 		go ga.selector(mutated, selected, ga.Popsize,
 			func(individuum Individuum) float64 {
 				return math.Exp(-individuum.getFitness())
 			})
 		pop.collectIndividuals(selected)
-		quit <- true
 	}
 	return pop
 }
