@@ -19,7 +19,7 @@ type GeneticAlgorithm struct {
 func MakeGeneticAlgorithm(popsize, iterations int) GeneticAlgorithm {
 	return GeneticAlgorithm{popsize,
 		iterations,
-		NonUniformMutator,
+		AdaptiveGaussianMutator,
 		OnePointCrossOver,
 		RemainderStochasticSampling}
 }
@@ -41,7 +41,7 @@ func (ga GeneticAlgorithm) Optimize() Population {
 
 		go pop.streamIndividuals(parents, quit)
 		go ga.recombiner(parents, children, ga.Popsize)
-		go ga.mutator(children, mutated)
+		go ga.mutator(children, mutated, MutateContext{pop.age, ga.Iterations})
 		go ga.selector(mutated, selected, ga.Popsize,
 			func(individuum Individuum) float64 {
 				return math.Exp(-individuum.getFitness())
