@@ -9,7 +9,9 @@ import (
 
 func main() {
 	demonstrateHillClimber()
+	fmt.Println("-------------------------------------------------")
 	demonstrateGeneticAlgorithm()
+	fmt.Println("-------------------------------------------------")
 	demonstratePipelinedGeneticAlgorithm()
 }
 
@@ -37,7 +39,7 @@ func demonstrateGeneticAlgorithm() {
 	}
 	result := g.Optimize(func (individuum ga.Individuum) bool {
 		return individuum.GetFitness() < 0.05
-	}, true)
+	}, false)
 	fmt.Println()
 	fmt.Println("Result: ")
 	fmt.Println(result)
@@ -55,7 +57,7 @@ func demonstratePipelinedGeneticAlgorithm() {
 	}
 	result := g.OptimizePipelined(func (individuum ga.Individuum) bool {
 		return individuum.GetFitness() < 0.05
-	}, true)
+	}, false)
 	fmt.Println()
 	fmt.Println("Result: ")
 	fmt.Println(result)
