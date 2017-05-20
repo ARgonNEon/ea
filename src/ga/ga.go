@@ -1,8 +1,9 @@
 package ga
 
-import "math"
-
-//import "math"
+import (
+	"math"
+	"fmt"
+)
 
 type IsOptimized func(individuum Individuum) bool
 
@@ -18,14 +19,13 @@ func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Individ
 
 	pop := GenerateStartPopulation(ga.Popsize)
 
-	channelSize := int(math.Min(100, float64(ga.Popsize)))
 	i := 0
 	for {
 
-		parents := make(chan Individuum, channelSize)
-		children := make(chan Individuum, channelSize)
-		mutated := make(chan Individuum, channelSize)
-		selected := make(chan Individuum, channelSize)
+		parents := make(chan Individuum)
+		children := make(chan Individuum)
+		mutated := make(chan Individuum)
+		selected := make(chan Individuum)
 
 		go pop.streamIndividuals(parents)
 		go ga.Recombiner(parents, children)
@@ -36,8 +36,10 @@ func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Individ
 			})
 		pop.collectIndividuals(selected)
 		best, _ := pop.findBest()
-		pop.Analyze()
-		if i++; optimized(best) || i>=ga.MaxIterations{
+		if verbose {
+			fmt.Println(pop)
+		}
+		if i++; optimized(best) || i >= ga.MaxIterations {
 			return best
 		}
 	}
