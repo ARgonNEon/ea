@@ -48,18 +48,15 @@ func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Individ
 func (ga GeneticAlgorithm) OptimizePipelined(optimized IsOptimized, verbose bool) Individuum {
 	pop := GenerateStartPopulation(ga.Popsize)
 
-	channelSize := ga.Popsize / 4
+	channelSize := int(math.Ceil(float64(ga.Popsize) / 4))
 
-	ancient := make(chan Individuum)
 	parents := make(chan Individuum, channelSize)
 	children := make(chan Individuum, channelSize)
 	mutated := make(chan Individuum, channelSize)
 	selected := make(chan Individuum, channelSize)
-	loopback := make(chan Individuum, channelSize)
 	result := make(chan Individuum, 1)
 
-	go pop.streamIndividuals(ancient)
-	go loopbackTee(ancient, loopback, parents)
+	go pop.streamIndividuals(parents)
 	go ga.Recombiner(parents, children)
 	go ga.Mutator(children, mutated, MutateContext{0, 1})
 	go ga.Selector(mutated, selected, int(ga.Popsize/2),
@@ -68,7 +65,7 @@ func (ga GeneticAlgorithm) OptimizePipelined(optimized IsOptimized, verbose bool
 		})
 
 	info := make(chan AnalyzeInfo, 10)
-	go analyzeIndividuum(selected, loopback, result, info, optimized)
+	go analyzeIndividuum(selected, parents, result, info, optimized)
 
 	best := 1e9
 	for f := range info {
@@ -113,15 +110,5 @@ func analyzeIndividuum(in <-chan Individuum, out, result chan<- Individuum, info
 		}
 		out <- individuum
 		counter++
-	}
-}
-
-func loopbackTee(input, loopback <-chan Individuum, output chan<- Individuum) {
-	defer close(output)
-	for individuum := range input {
-		output <- individuum
-	}
-	for individuum := range loopback {
-		output <- individuum
 	}
 }
