@@ -33,6 +33,7 @@ func (pop *Population) collectIndividuals(chIndivuduals <-chan Individuum) {
 }
 
 func (pop Population) streamIndividuals(chIndividuals chan<-Individuum) {
+	defer close(chIndividuals)
 	for _, individuum := range pop.individuals {
 		chIndividuals <- individuum
 	}

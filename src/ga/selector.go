@@ -13,11 +13,11 @@ func DummySelector(individuals <-chan Individuum, selected chan<- Individuum, wi
 	}
 }
 
-func collectSample(individuals <-chan Individuum, window int, optimizer OptimizeFunction) (sampleWindow []Individuum, distribution []float64){
+func collectSample(individuals <-chan Individuum, window int, optimizer OptimizeFunction) (sampleWindow []Individuum, distribution []float64) {
 	sampleWindow = make([]Individuum, window)
 	distribution = make([]float64, window)
 	var sum float64
-	for i:=0; i<window; i++ {
+	for i := 0; i < window; i++ {
 		individuum := <-individuals
 		fitness := optimizer(individuum)
 		sampleWindow[i] = individuum
@@ -25,22 +25,24 @@ func collectSample(individuals <-chan Individuum, window int, optimizer Optimize
 		sum += fitness
 	}
 	for i := range distribution {
-		distribution[i] *= 1/sum
+		distribution[i] *= 1 / sum
 	}
 	return
 }
 
 func RemainderStochasticSampling(individuals <-chan Individuum, selected chan<- Individuum, window int, optimizer OptimizeFunction) {
-	sampleWindow, distribution := collectSample(individuals, window, optimizer)
-	var totalAmout int
-	for i, individuum := range sampleWindow {
-		amount := int(math.Floor(distribution[i] * float64(window)))
-		for j:=0; j<amount; j++ {
-			selected <- individuum
+	for {
+		sampleWindow, distribution := collectSample(individuals, window, optimizer)
+		var totalAmout int
+		for i, individuum := range sampleWindow {
+			amount := int(math.Floor(distribution[i] * float64(window)))
+			for j := 0; j < amount; j++ {
+				selected <- individuum
+			}
+			totalAmout += amount
 		}
-		totalAmout+=amount
-	}
-	for i:=0; i<(window-totalAmout); i++ {
-		selected <- sampleWindow[rand.Intn(window)]
+		for i := 0; i < (window - totalAmout); i++ {
+			selected <- sampleWindow[rand.Intn(window)]
+		}
 	}
 }
