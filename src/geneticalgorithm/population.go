@@ -44,7 +44,7 @@ func (pop Population) streamIndividuals(chIndividuals chan<-Individuum) {
 func (pop Population) findBest() (best Individuum, index int) {
 	minFitness := 1e9
 	for i, individuum := range pop.individuals {
-		if fitness := individuum.GetFitness(); fitness < minFitness {
+		if fitness := individuum.GetPhenotype(); fitness < minFitness {
 			minFitness = fitness
 			best = individuum
 			index = i

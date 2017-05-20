@@ -19,6 +19,7 @@ type Fitness interface {
 }
 
 type Individuum []int
+
 type floatIndividuum []float64
 
 func MakeRandomIndividuum(nGenes int) Individuum {
@@ -33,7 +34,7 @@ func MakeIndividuum(template Individuum) Individuum {
 	return make([]int, len(template))
 }
 
-func (individuum Individuum) GetFitness() float64 {
+func (individuum Individuum) GetPhenotype() float64 {
 	var values []float64 = individuum.ToFloatIndividuum()
 	return ackley.Ackley(values)
 }
@@ -58,5 +59,5 @@ func (fIndividuum floatIndividuum) String() string {
 }
 
 func (individuum Individuum) String() string {
-	return fmt.Sprintf("Individuum: [Phenotype: %.6f, Genotype %v]", individuum.GetFitness(), individuum.ToFloatIndividuum())
+	return fmt.Sprintf("Individuum: [Phenotype: %.6f, Genotype %v]", individuum.GetPhenotype(), individuum.ToFloatIndividuum())
 }

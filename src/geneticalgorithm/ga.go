@@ -32,7 +32,7 @@ func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Individ
 		go ga.Mutator(children, mutated, MutateContext{pop.age, ga.MaxIterations})
 		go ga.Selector(mutated, selected, ga.Popsize,
 			func(individuum Individuum) float64 {
-				return math.Exp(-individuum.GetFitness())
+				return math.Exp(-individuum.GetPhenotype())
 			})
 		pop.collectIndividuals(selected)
 		best, _ := pop.findBest()
@@ -64,7 +64,7 @@ func (ga GeneticAlgorithm) OptimizePipelined(optimized IsOptimized, verbose bool
 	go ga.Mutator(children, mutated, MutateContext{0, 1})
 	go ga.Selector(mutated, selected, int(ga.Popsize/2),
 		func(individuum Individuum) float64 {
-			return math.Exp(-individuum.GetFitness())
+			return math.Exp(-individuum.GetPhenotype())
 		})
 
 	info := make(chan AnalyzeInfo, 10)
@@ -97,7 +97,7 @@ func analyzeIndividuum(in <-chan Individuum, out, result chan<- Individuum, info
 	best := 1e9
 	counter := int64(0)
 	for individuum := range in {
-		fitness := individuum.GetFitness();
+		fitness := individuum.GetPhenotype();
 		if fitness < best {
 			best = fitness
 			if optimized(individuum) {

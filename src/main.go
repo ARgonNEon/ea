@@ -38,7 +38,7 @@ func demonstrateGeneticAlgorithm() {
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
 	result := g.Optimize(func (individuum geneticalgorithm.Individuum) bool {
-		return individuum.GetFitness() < 0.05
+		return individuum.GetPhenotype() < 0.05
 	}, false)
 	fmt.Println()
 	fmt.Println("Result: ")
@@ -56,8 +56,8 @@ func demonstratePipelinedGeneticAlgorithm() {
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
 	result := g.OptimizePipelined(func (individuum geneticalgorithm.Individuum) bool {
-		return individuum.GetFitness() < 0.05
-	}, false)
+		return individuum.GetPhenotype() < 0.05
+	}, true)
 	fmt.Println()
 	fmt.Println("Result: ")
 	fmt.Println(result)
