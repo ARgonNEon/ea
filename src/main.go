@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	demonstrateHillClimber()
 	demonstrateGeneticAlgorithm()
 }
 
@@ -27,14 +28,14 @@ func demonstrateGeneticAlgorithm() {
 	fmt.Println("Genetic Algorithm")
 	g := ga.GeneticAlgorithm{
 		Popsize: 50,
-		MaxIterations: 20000,
+		MaxIterations: 25000,
 		Mutator: ga.AdaptiveGaussianMutator,
 		Recombiner: ga.OnePointCrossOver,
 		Selector: ga.RemainderStochasticSampling,
 	}
 	result := g.Optimize(func (individuum ga.Individuum) bool {
-		return individuum.GetFitness() < 0.05
-	}, true)
+		return individuum.GetFitness() < 0.1
+	}, false)
 	fmt.Println()
 	fmt.Println("Result: ")
 	fmt.Println(result)
