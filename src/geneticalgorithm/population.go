@@ -6,7 +6,7 @@ import (
 
 type Population struct {
 	individuals []Individuum
-	age         int
+	age         uint64
 }
 
 func GenerateStartPopulation(size int) Population {

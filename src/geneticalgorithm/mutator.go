@@ -10,8 +10,8 @@ var (
 )
 
 type MutateContext struct {
-	Age int
-	MaxAge int
+	Age uint64
+	MaxAge uint64
 }
 
 type Mutate func(individuals <-chan Individuum, mutated chan<- Individuum, context MutateContext)

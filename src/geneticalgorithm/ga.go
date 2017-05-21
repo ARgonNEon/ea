@@ -9,7 +9,7 @@ type IsOptimized func(individuum Individuum) bool
 
 type GeneticAlgorithm struct {
 	Popsize       int
-	MaxIterations int
+	MaxIterations uint64
 	Mutator       Mutate
 	Recombiner    Recombine
 	Selector      Select
@@ -19,7 +19,7 @@ func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Individ
 
 	pop := GenerateStartPopulation(ga.Popsize)
 
-	i := 0
+	i := uint64(0)
 	for {
 
 		parents := make(chan Individuum)
@@ -65,7 +65,7 @@ func (ga GeneticAlgorithm) OptimizePipelined(optimized IsOptimized, verbose bool
 		})
 
 	info := make(chan AnalyzeInfo, 10)
-	go analyzeIndividuum(selected, parents, result, info, optimized)
+	go analyzeIndividuum(selected, parents, result, info, optimized, ga.MaxIterations)
 
 	best := 1e9
 	for f := range info {
@@ -79,7 +79,7 @@ func (ga GeneticAlgorithm) OptimizePipelined(optimized IsOptimized, verbose bool
 }
 
 type AnalyzeInfo struct {
-	N                int64
+	N                uint64
 	BestPhenotype    float64
 	CurrentPhenotype float64
 }
@@ -88,26 +88,32 @@ func (ai AnalyzeInfo) String() string {
 	return fmt.Sprintf("Individuum counter: %d, Best Phenotype: %.3f, Current Phenotype: %.3f", ai.N, ai.BestPhenotype, ai.CurrentPhenotype)
 }
 
-func analyzeIndividuum(in <-chan Individuum, out, result chan<- Individuum, info chan<- AnalyzeInfo, optimized IsOptimized) {
+func analyzeIndividuum(in <-chan Individuum, out, result chan<- Individuum, info chan<- AnalyzeInfo, optimized IsOptimized, maxIterations uint64) {
 	defer close(out)
 	defer close(info)
-	best := 1e9
-	counter := int64(0)
+	bestPhenotype := 1e9
+	var bestIndividuum Individuum
+	counter := uint64(0)
 	for individuum := range in {
 		out <- individuum
 		phenotype := individuum.GetPhenotype();
-		if phenotype < best {
-			best = phenotype
+		if phenotype < bestPhenotype {
+			bestPhenotype = phenotype
+			bestIndividuum = individuum
 			if optimized(individuum) {
-				result <- individuum
-				info <- AnalyzeInfo{counter, best, phenotype}
+				result <- bestIndividuum
+				info <- AnalyzeInfo{counter, bestPhenotype, phenotype}
 				return
 			}
 		}
 		info <- AnalyzeInfo{
 			N:                counter,
-			BestPhenotype:    best,
+			BestPhenotype:    bestPhenotype,
 			CurrentPhenotype: phenotype,
+		}
+		if (counter > maxIterations) {
+			result <- bestIndividuum
+			return
 		}
 		counter++
 	}
