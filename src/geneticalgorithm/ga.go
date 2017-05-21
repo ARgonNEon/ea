@@ -69,8 +69,8 @@ func (ga GeneticAlgorithm) OptimizePipelined(optimized IsOptimized, verbose bool
 
 	best := 1e9
 	for f := range info {
-		if verbose && f.BestPhenotype < best {
-			best = f.BestPhenotype
+		if newBest := f.BestPhenotype; verbose && newBest < best {
+			best = newBest
 			fmt.Printf("New best phenotype %.6f after %d individuals.\n", f.BestPhenotype, f.N)
 		}
 	}
