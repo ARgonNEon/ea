@@ -42,7 +42,7 @@ func demonstrateGeneticAlgorithm() {
 	g := geneticalgorithm.GeneticAlgorithm{
 		Popsize:       50,
 		MaxIterations: 25000,
-		Mutator:       geneticalgorithm.AdaptiveGaussianMutator,
+		Mutator:       geneticalgorithm.NonUniformMutator,
 		Recombiner:    geneticalgorithm.OnePointCrossOver,
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}

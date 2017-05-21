@@ -94,6 +94,7 @@ func analyzeIndividuum(in <-chan Individuum, out, result chan<- Individuum, info
 	best := 1e9
 	counter := int64(0)
 	for individuum := range in {
+		out <- individuum
 		phenotype := individuum.GetPhenotype();
 		if phenotype < best {
 			best = phenotype
@@ -108,7 +109,6 @@ func analyzeIndividuum(in <-chan Individuum, out, result chan<- Individuum, info
 			BestPhenotype:    best,
 			CurrentPhenotype: phenotype,
 		}
-		out <- individuum
 		counter++
 	}
 }
