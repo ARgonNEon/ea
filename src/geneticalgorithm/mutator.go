@@ -1,6 +1,13 @@
 package geneticalgorithm
 
-import "math/rand"
+import (
+	"math/rand"
+)
+
+var (
+	discretizer = NewStandardDiscretizer()
+	nonUniformSigma = float64(discretizer.Value2RelativeCode(0.05))
+)
 
 type MutateContext struct {
 	Age int
@@ -27,7 +34,7 @@ func nonUniformMutator(individuals <-chan Individuum, mutated chan<- Individuum,
 }
 
 func NonUniformMutator(individuals <-chan Individuum, mutated chan<- Individuum, context MutateContext) {
-	nonUniformMutator(individuals, mutated, 100)
+	nonUniformMutator(individuals, mutated, nonUniformSigma)
 }
 
 func AdaptiveGaussianMutator(individuals <-chan Individuum, mutated chan<- Individuum, context MutateContext) {

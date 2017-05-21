@@ -1,6 +1,8 @@
 package geneticalgorithm
 
-import "math"
+import (
+	"math"
+)
 
 type Discretize interface {
 	Code2Value(code int) float64
@@ -30,6 +32,10 @@ func (disc LinearDiscretizer) Code2Value(code int) float64 {
 
 func (disc LinearDiscretizer) Value2Code(value float64) int {
 	return int(math.Floor((value-disc.XMin)/(disc.XMax-disc.XMin)*math.Pow(2, float64(disc.K)) - 1))
+}
+
+func (disc LinearDiscretizer) Value2RelativeCode(value float64) int {
+	return int(math.Floor(value/(disc.XMax-disc.XMin)*math.Pow(2, float64(disc.K)) - 1))
 }
 
 func (disc LinearDiscretizer) getMaxCode() int {
