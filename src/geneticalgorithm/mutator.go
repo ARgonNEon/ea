@@ -4,9 +4,11 @@ import (
 	"math/rand"
 )
 
+const nonUniformSigmaFloat = 0.05
+
 var (
 	discretizer = NewStandardDiscretizer()
-	nonUniformSigma = float64(discretizer.Value2RelativeCode(0.05))
+	nonUniformSigma = float64(discretizer.Value2RelativeCode(nonUniformSigmaFloat))
 )
 
 type MutateContext struct {
