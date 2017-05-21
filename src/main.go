@@ -59,7 +59,7 @@ func demonstratePipelinedGeneticAlgorithm() {
 	fmt.Println("Genetic Algorithm (Pipelined)")
 	g := geneticalgorithm.GeneticAlgorithm{
 		Popsize:       50,
-		MaxIterations: 1e9,
+		MaxIterations: 1e8,
 		Mutator:       geneticalgorithm.NonUniformMutator,
 		Recombiner:    geneticalgorithm.OnePointCrossOver,
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
