@@ -4,6 +4,10 @@ import (
 	"math/rand"
 )
 
+var (
+	disc = NewStandardDiscretizer()
+)
+
 type Recombine func(parents <-chan Individuum, children chan<- Individuum)
 
 func DummyRecombiner(parents <-chan Individuum, children chan<- Individuum) {
@@ -21,7 +25,7 @@ func OnePointCrossOver(parents <-chan Individuum, children chan<- Individuum) {
 		parent2 := parent
 		child := MakeIndividuum(parent1)
 		for i := range child {
-			mask := 0x1FFFF >> uint(rand.Intn(16) + 1)
+			mask := ((1<<disc.K) - 1) >> uint(rand.Intn(16) + 1)
 			child[i] = parent2[i] & mask | parent1[i] & (mask^0xFFFFFFFF)
 		}
 		children <- child

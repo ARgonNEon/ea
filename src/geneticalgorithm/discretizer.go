@@ -13,11 +13,11 @@ type LinearDiscretizer struct {
 	XMax    float64
 	XMin    float64
 	Epsilon float64
-	K       int
+	K       uint
 }
 
 func NewDiscretizer(xmin, xmax, epsilon float64) *LinearDiscretizer {
-	k := int(math.Ceil(math.Log2((xmax - xmin) / epsilon)))
+	k := uint(math.Ceil(math.Log2((xmax - xmin) / epsilon)))
 	return &LinearDiscretizer{xmax, xmin, epsilon, k}
 }
 
