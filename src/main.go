@@ -47,7 +47,7 @@ func demonstrateGeneticAlgorithm() {
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
 	result := g.Optimize(func (individuum geneticalgorithm.Individuum) bool {
-		return individuum.GetPhenotype() < 0.01
+		return individuum.GetPhenotype() < 0.05
 	}, true)
 	fmt.Println()
 	fmt.Println("Result: ")
