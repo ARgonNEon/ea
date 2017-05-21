@@ -5,14 +5,23 @@ import (
 	"geneticalgorithm"
 	"hillclimber"
 	"ackley"
+	"bufio"
+	"os"
 )
 
 func main() {
 	demonstrateHillClimber()
+        waitKey()
 	fmt.Println("-------------------------------------------------")
 	demonstrateGeneticAlgorithm()
+        waitKey()
 	fmt.Println("-------------------------------------------------")
 	demonstratePipelinedGeneticAlgorithm()
+}
+
+func waitKey() {
+        fmt.Println("Press Enter to continue...")
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
 }
 
 func demonstrateHillClimber() {
@@ -39,7 +48,7 @@ func demonstrateGeneticAlgorithm() {
 	}
 	result := g.Optimize(func (individuum geneticalgorithm.Individuum) bool {
 		return individuum.GetPhenotype() < 0.05
-	}, false)
+	}, true)
 	fmt.Println()
 	fmt.Println("Result: ")
 	fmt.Println(result)
