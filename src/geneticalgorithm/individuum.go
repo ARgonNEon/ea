@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"bytes"
 	"math/rand"
-	"time"
 	"ackley"
+	"time"
 )
 
 var discretize = NewStandardDiscretizer()

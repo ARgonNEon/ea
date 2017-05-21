@@ -25,7 +25,7 @@ func OnePointCrossOver(parents <-chan Individuum, children chan<- Individuum) {
 		parent2 := parent
 		child := MakeIndividuum(parent1)
 		for i := range child {
-			mask := ((1<<disc.K) - 1) >> uint(rand.Intn(16) + 1)
+			mask := ((1<<disc.K) - 1) >> uint(rand.Intn(int(disc.K - 1)) + 1)
 			child[i] = parent2[i] & mask | parent1[i] & (mask^0xFFFFFFFF)
 		}
 		children <- child
