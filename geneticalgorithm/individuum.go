@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"bytes"
 	"math/rand"
-	"ackley"
+	"wesx.de/ArneS/ea/ackley"
 	"time"
 )
 

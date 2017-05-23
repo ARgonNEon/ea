@@ -1,11 +1,11 @@
 package main
 
 import (
-	"ackley"
+	"wesx.de/ArneS/ea/ackley"
 	"bufio"
 	"fmt"
-	"geneticalgorithm"
-	"hillclimber"
+	"wesx.de/ArneS/ea/geneticalgorithm"
+	"wesx.de/ArneS/ea/hillclimber"
 	"os"
 )
 

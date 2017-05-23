@@ -1,6 +1,6 @@
 package hillclimber
 
-import "ackley"
+import "wesx.de/ArneS/ea/ackley"
 
 type Hillclimber struct {
 	Nmax  int
