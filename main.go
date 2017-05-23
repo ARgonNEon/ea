@@ -1,34 +1,34 @@
 package main
 
 import (
+	"ackley"
+	"bufio"
 	"fmt"
 	"geneticalgorithm"
 	"hillclimber"
-	"ackley"
-	"bufio"
 	"os"
 )
 
 func main() {
-	demonstrateHillClimber()
-        waitKey()
-	fmt.Println("-------------------------------------------------")
-	demonstrateGeneticAlgorithm()
-        waitKey()
-	fmt.Println("-------------------------------------------------")
+	//demonstrateHillClimber()
+	//waitKey()
+	//fmt.Println("-------------------------------------------------")
+	//demonstrateGeneticAlgorithm()
+	//waitKey()
+	//fmt.Println("-------------------------------------------------")
 	demonstratePipelinedGeneticAlgorithm()
 }
 
 func waitKey() {
-        fmt.Println("Press Enter to continue...")
+	fmt.Println("Press Enter to continue...")
 	bufio.NewReader(os.Stdin).ReadBytes('\n')
 }
 
 func demonstrateHillClimber() {
 	climber := hillclimber.Hillclimber{
-		Nmax: 1000,
+		Nmax:  1000,
 		Delta: 1e-1,
-		Dim: 6,
+		Dim:   6,
 	}
 	result := climber.Climb([]float64{5, 1, 9, 10, 1.5, 2.33})
 	fmt.Println("Hillclimber:")
@@ -46,7 +46,7 @@ func demonstrateGeneticAlgorithm() {
 		Recombiner:    geneticalgorithm.OnePointCrossOver,
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
-	result := g.Optimize(func (individuum geneticalgorithm.Individuum) bool {
+	result := g.Optimize(func(individuum geneticalgorithm.Individuum) bool {
 		return individuum.GetPhenotype() < 0.05
 	}, true)
 	fmt.Println()
@@ -64,8 +64,8 @@ func demonstratePipelinedGeneticAlgorithm() {
 		Recombiner:    geneticalgorithm.OnePointCrossOver,
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
-	result := g.OptimizePipelined(func (individuum geneticalgorithm.Individuum) bool {
-		return individuum.GetPhenotype() < 0.01
+	result := g.OptimizePipelined(func(individuum geneticalgorithm.Individuum) bool {
+		return individuum.GetPhenotype() < 0.05
 	}, true)
 	fmt.Println()
 	fmt.Println("Result: ")
