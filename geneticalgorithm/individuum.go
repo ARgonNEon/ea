@@ -34,10 +34,11 @@ func (individuum DiscreteIndividuum) GetPhenotype() float64 {
 }
 
 func (individuum DiscreteIndividuum) ToFloatIndividuum() optimizer.Individuum {
-	values := make([]float64, 0, len(individuum))
+	values := make([]float64, 0, len(individuum)+1)
 	for _, val := range individuum {
 		values = append(values, discretize.Code2Value(val))
 	}
+	values = append(values, 0)
 	return values
 }
 

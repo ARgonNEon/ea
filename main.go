@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	/*demonstrateHillClimber()
+	demonstrateHillClimber()
 	waitKey()
 	fmt.Println("-------------------------------------------------")
 	demonstrateGeneticAlgorithm()
@@ -21,7 +21,7 @@ func main() {
 	fmt.Println("-------------------------------------------------")
 	demonstratePipelinedGeneticAlgorithm()
 	waitKey()
-	fmt.Println("-------------------------------------------------")*/
+	fmt.Println("-------------------------------------------------")
 	demonstrateEvolutionStategy()
 }
 
@@ -70,9 +70,13 @@ func demonstrateEvolutionStategy() {
 		UpperBound:    40.0,
 		LowerBound:    -40.0,
 	}
-	e.Optimize(func(individuum optimizer.Fitnessable) bool {
-		return individuum.GetPhenotype() < 0.0001
+	result := e.Optimize(func(individuum optimizer.Fitnessable) bool {
+		return individuum.GetPhenotype() < 1e-6
 	}, true)
+	fmt.Println()
+	fmt.Println("Result: ")
+	fmt.Println(result)
+	fmt.Println()
 
 }
 

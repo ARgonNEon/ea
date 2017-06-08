@@ -53,5 +53,5 @@ func (p Population) findBest() optimizer.Individuum {
 }
 
 func (p Population) String() string {
-	return fmt.Sprintf("Size: %d, Best: %s", len(p.individuals), p.findBest().String())
+	return fmt.Sprintf("Size: %d, Best: %s, Age: %d", len(p.individuals), p.findBest().String(), p.age)
 }
