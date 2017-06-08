@@ -35,6 +35,11 @@ func MakeRandomIndividuum(nGenes int, max, min float64) Individuum {
 	return individuum
 }
 
+func MakeFromTemplate(template Individuum) Individuum {
+	individuum := make(Individuum, cap(template))
+	return individuum
+}
+
 func (individuum Individuum) String() string {
 	return fmt.Sprintf("Individuum: [Phenotype: %.6f, Genotype %v]", individuum.GetPhenotype(), individuum.createFloatString())
 }
