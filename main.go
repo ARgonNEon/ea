@@ -13,15 +13,15 @@ import (
 )
 
 func main() {
-	/*	demonstrateHillClimber()
-		waitKey()
-		fmt.Println("-------------------------------------------------")
-		demonstrateGeneticAlgorithm()
-		waitKey()
-		fmt.Println("-------------------------------------------------")
-		demonstratePipelinedGeneticAlgorithm()
-		waitKey()
-		fmt.Println("-------------------------------------------------")*/
+	demonstrateHillClimber()
+	waitKey()
+	fmt.Println("-------------------------------------------------")
+	demonstrateGeneticAlgorithm()
+	waitKey()
+	fmt.Println("-------------------------------------------------")
+	demonstratePipelinedGeneticAlgorithm()
+	waitKey()
+	fmt.Println("-------------------------------------------------")
 	demonstrateEvolutionStategy()
 }
 
@@ -90,7 +90,7 @@ func demonstratePipelinedGeneticAlgorithm() {
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
 	result := g.OptimizePipelined(func(individuum optimizer.Fitnessable) bool {
-		return individuum.GetPhenotype() < 0.01
+		return individuum.GetPhenotype() < 0.05
 	}, true)
 	fmt.Println()
 	fmt.Println("Result: ")
