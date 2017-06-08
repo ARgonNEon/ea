@@ -13,15 +13,15 @@ import (
 )
 
 func main() {
-	/*	demonstrateHillClimber()
-		waitKey()
-		fmt.Println("-------------------------------------------------")
-		demonstrateGeneticAlgorithm()
-		waitKey()
-		fmt.Println("-------------------------------------------------")
-		demonstratePipelinedGeneticAlgorithm()
-		waitKey()
-		fmt.Println("-------------------------------------------------")*/
+	demonstrateHillClimber()
+	waitKey()
+	fmt.Println("-------------------------------------------------")
+	demonstrateGeneticAlgorithm()
+	waitKey()
+	fmt.Println("-------------------------------------------------")
+	demonstratePipelinedGeneticAlgorithm()
+	waitKey()
+	fmt.Println("-------------------------------------------------")
 	demonstrateEvolutionStategy()
 }
 
