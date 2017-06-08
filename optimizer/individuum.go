@@ -40,6 +40,10 @@ func MakeFromTemplate(template Individuum) Individuum {
 	return individuum
 }
 
+func (individuum Individuum) CreateNew() Individuum {
+	return MakeFromTemplate(individuum)
+}
+
 func (individuum Individuum) String() string {
 	return fmt.Sprintf("Individuum: [Phenotype: %.6f, Genotype %v]", individuum.GetPhenotype(), individuum.createFloatString())
 }

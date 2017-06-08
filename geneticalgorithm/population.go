@@ -13,7 +13,7 @@ func GenerateStartPopulation(size int) Population {
 	population := GenerateEmtpyPopulation(size)
 	ch := make(chan DiscreteIndividuum, 10)
 	go func() {
-		for i:=0; i<size; i++ {
+		for i := 0; i < size; i++ {
 			ch <- MakeRandomIndividuum(NGenes)
 		}
 	}()
@@ -27,7 +27,7 @@ func GenerateEmtpyPopulation(size int) Population {
 }
 
 func (pop *Population) collectIndividuals(chIndivuduals <-chan DiscreteIndividuum) {
-	for i:=0; i<cap(pop.individuals); i++ {
+	for i := 0; i < cap(pop.individuals); i++ {
 		pop.individuals[i] = <-chIndivuduals
 	}
 	pop.age++
@@ -63,6 +63,6 @@ func (pop *Population) increaseAge() {
 func (pop Population) String() string {
 	best, index := pop.findBest()
 
-	return fmt.Sprintf("Population: [Age: %d, Popsize: %d, Best DiscreteIndividuum(index=%d): %v]",
+	return fmt.Sprintf("Population: [Age: %d, Popsize: %d, Best Individuum(index=%d): %v]",
 		pop.age, len(pop.individuals), index, best)
 }
