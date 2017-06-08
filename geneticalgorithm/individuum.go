@@ -1,7 +1,6 @@
 package geneticalgorithm
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 
@@ -43,5 +42,5 @@ func (individuum DiscreteIndividuum) ToFloatIndividuum() evolutionstrategy.Indiv
 }
 
 func (individuum DiscreteIndividuum) String() string {
-	return fmt.Sprintf("DiscreteIndividuum: [Phenotype: %.6f, Genotype %v]", individuum.GetPhenotype(), individuum.ToFloatIndividuum())
+	return individuum.ToFloatIndividuum().String()
 }

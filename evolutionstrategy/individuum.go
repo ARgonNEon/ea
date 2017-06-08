@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"fmt"
 
+	"math/rand"
+
 	"wesx.de/ArneS/ea/ackley"
 )
 
@@ -26,6 +28,15 @@ func (individuum Individuum) createFloatString() string {
 	}
 	ss.WriteString("\b]")
 	return ss.String()
+}
+
+func MakeRandomIndividuum(nGenes int, max, min float64) Individuum {
+	individuum := make(Individuum, nGenes)
+	for index := range individuum {
+		r := rand.Float64()*(max-min) + min
+		individuum[index] = r
+	}
+	return individuum
 }
 
 func (individuum Individuum) String() string {

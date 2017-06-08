@@ -8,6 +8,7 @@ import (
 	"wesx.de/ArneS/ea/ackley"
 	"wesx.de/ArneS/ea/geneticalgorithm"
 	"wesx.de/ArneS/ea/hillclimber"
+	"wesx.de/ArneS/ea/optimizer"
 )
 
 func main() {
@@ -47,7 +48,7 @@ func demonstrateGeneticAlgorithm() {
 		Recombiner:    geneticalgorithm.OnePointCrossOver,
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
-	result := g.Optimize(func(individuum geneticalgorithm.DiscreteIndividuum) bool {
+	result := g.Optimize(func(individuum optimizer.Fitnessable) bool {
 		return individuum.GetPhenotype() < 0.05
 	}, true)
 	fmt.Println()
@@ -65,7 +66,7 @@ func demonstratePipelinedGeneticAlgorithm() {
 		Recombiner:    geneticalgorithm.OnePointCrossOver,
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
-	result := g.OptimizePipelined(func(individuum geneticalgorithm.DiscreteIndividuum) bool {
+	result := g.OptimizePipelined(func(individuum optimizer.Fitnessable) bool {
 		return individuum.GetPhenotype() < 0.05
 	}, true)
 	fmt.Println()

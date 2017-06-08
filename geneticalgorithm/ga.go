@@ -1,11 +1,11 @@
 package geneticalgorithm
 
 import (
-	"math"
 	"fmt"
-)
+	"math"
 
-type IsOptimized func(individuum DiscreteIndividuum) bool
+	"wesx.de/ArneS/ea/optimizer"
+)
 
 type GeneticAlgorithm struct {
 	Popsize       int
@@ -15,7 +15,7 @@ type GeneticAlgorithm struct {
 	Selector      Select
 }
 
-func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) DiscreteIndividuum {
+func (ga GeneticAlgorithm) Optimize(optimized optimizer.IsOptimized, verbose bool) DiscreteIndividuum {
 
 	pop := GenerateStartPopulation(ga.Popsize)
 
@@ -45,7 +45,7 @@ func (ga GeneticAlgorithm) Optimize(optimized IsOptimized, verbose bool) Discret
 	}
 }
 
-func (ga GeneticAlgorithm) OptimizePipelined(optimized IsOptimized, verbose bool) DiscreteIndividuum {
+func (ga GeneticAlgorithm) OptimizePipelined(optimized optimizer.IsOptimized, verbose bool) DiscreteIndividuum {
 	pop := GenerateStartPopulation(ga.Popsize)
 
 	channelSize := int(math.Ceil(float64(ga.Popsize) / 4))
@@ -88,7 +88,7 @@ func (ai AnalyzeInfo) String() string {
 	return fmt.Sprintf("DiscreteIndividuum counter: %d, Best Phenotype: %.3f, Current Phenotype: %.3f", ai.N, ai.BestPhenotype, ai.CurrentPhenotype)
 }
 
-func analyzeIndividuum(in <-chan DiscreteIndividuum, out, result chan<- DiscreteIndividuum, info chan<- AnalyzeInfo, optimized IsOptimized, maxIterations uint64) {
+func analyzeIndividuum(in <-chan DiscreteIndividuum, out, result chan<- DiscreteIndividuum, info chan<- AnalyzeInfo, optimized optimizer.IsOptimized, maxIterations uint64) {
 	defer close(out)
 	defer close(info)
 	bestPhenotype := 1e9
@@ -96,7 +96,7 @@ func analyzeIndividuum(in <-chan DiscreteIndividuum, out, result chan<- Discrete
 	counter := uint64(0)
 	for individuum := range in {
 		out <- individuum
-		phenotype := individuum.GetPhenotype();
+		phenotype := individuum.GetPhenotype()
 		if phenotype < bestPhenotype {
 			bestPhenotype = phenotype
 			bestIndividuum = individuum
@@ -111,7 +111,7 @@ func analyzeIndividuum(in <-chan DiscreteIndividuum, out, result chan<- Discrete
 			BestPhenotype:    bestPhenotype,
 			CurrentPhenotype: phenotype,
 		}
-		if (counter > maxIterations) {
+		if counter > maxIterations {
 			result <- bestIndividuum
 			return
 		}
