@@ -38,8 +38,8 @@ func (es EvolutionStrategy) Optimize(optimized optimizer.IsOptimized, verbose bo
 		selected := make(chan optimizer.Individuum)
 
 		go pop.streamIndividuals(initial)
-		go mutator.Identity(initial, mutated)
-		go selector.Select(mutated, selected)
+		go mutator.Mutate(initial, mutated)
+		go selector.SelectDynamically(mutated, selected)
 		pop.collectIndividuals(selected)
 		if verbose {
 			fmt.Println(pop)
