@@ -71,7 +71,7 @@ func demonstrateEvolutionStategy() {
 		LowerBound:    -40.0,
 	}
 	e.Optimize(func(individuum optimizer.Fitnessable) bool {
-		return individuum.GetPhenotype() < 0.05
+		return individuum.GetPhenotype() < 0.0001
 	}, true)
 
 }

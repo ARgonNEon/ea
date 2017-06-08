@@ -19,7 +19,7 @@ func (m Mutator) Mutate(in <-chan optimizer.Individuum, out chan<- optimizer.Ind
 	defer close(out)
 	for individuum := range in {
 		for i := 0; i < m.Lambda; i++ {
-			out <- m.gaussianMutator(individuum)
+			out <- m.adaptiveGaussianMutator(individuum)
 		}
 	}
 }

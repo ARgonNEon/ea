@@ -22,6 +22,7 @@ func (es EvolutionStrategy) Optimize(optimized optimizer.IsOptimized, verbose bo
 	fmt.Println(pop)
 
 	mutator := Mutator{
+		Popsize:    es.Popsize,
 		Lambda:     es.Lambda,
 		LowerBound: es.LowerBound,
 		UpperBound: es.UpperBound,
@@ -43,6 +44,9 @@ func (es EvolutionStrategy) Optimize(optimized optimizer.IsOptimized, verbose bo
 		pop.collectIndividuals(selected)
 		if verbose {
 			fmt.Println(pop)
+		}
+		if pop.matchAny(optimized) {
+			break
 		}
 	}
 	return pop.findBest()

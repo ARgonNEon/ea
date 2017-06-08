@@ -19,7 +19,7 @@ func (individuum Individuum) createFloatString() string {
 	var ss bytes.Buffer
 
 	ss.WriteString("[")
-	for _, val := range individuum {
+	for _, val := range individuum[:6] {
 		ss.WriteString(fmt.Sprintf("%5f ", val))
 	}
 	ss.WriteString("\b]")
@@ -45,5 +45,5 @@ func (individuum Individuum) CreateNew() Individuum {
 }
 
 func (individuum Individuum) String() string {
-	return fmt.Sprintf("Individuum: [Phenotype: %.6f, Genotype %v]", individuum.GetPhenotype(), individuum.createFloatString())
+	return fmt.Sprintf("Individuum: [Phenotype: %.6f, Genotype %v, Sigma: %.6f]", individuum.GetPhenotype(), individuum.createFloatString(), individuum[6])
 }

@@ -8,10 +8,14 @@ import (
 
 type Population struct {
 	individuals []optimizer.Individuum
+	age         int
 }
 
 func MakePopulation(popsize int) Population {
-	return Population{make([]optimizer.Individuum, popsize)}
+	return Population{
+		individuals: make([]optimizer.Individuum, popsize),
+		age:         0,
+	}
 }
 
 func (p Population) streamIndividuals(out chan<- optimizer.Individuum) {
@@ -25,6 +29,16 @@ func (p *Population) collectIndividuals(in <-chan optimizer.Individuum) {
 	for i := 0; i < cap(p.individuals); i++ {
 		p.individuals[i] = <-in
 	}
+	p.age++
+}
+
+func (p Population) matchAny(optimized optimizer.IsOptimized) bool {
+	for _, individuum := range p.individuals {
+		if optimized(individuum) {
+			return true
+		}
+	}
+	return false
 }
 
 func (p Population) findBest() optimizer.Individuum {

@@ -44,7 +44,7 @@ func (s Selector) SelectDynamically(in <-chan optimizer.Individuum, out chan<- o
 	var sum float64
 	distribution := make([]float64, len(input))
 	for index, individuum := range input {
-		value := math.Exp(-individuum.GetPhenotype())
+		value := -math.Exp(-individuum.GetPhenotype())
 		sum += value
 		distribution[index] = value
 	}
