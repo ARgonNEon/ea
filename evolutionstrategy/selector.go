@@ -35,6 +35,25 @@ func (s Selector) Select(in <-chan optimizer.Individuum, out chan<- optimizer.In
 	}
 }
 
+func (s Selector) SelectSorted(in <-chan optimizer.Individuum, out chan<- optimizer.Individuum) {
+	m := make(map[float64]optimizer.Individuum)
+
+	for individuum := range in {
+		m[math.Exp(-individuum.GetPhenotype())] = individuum
+	}
+
+	var keys []float64
+	for k := range m {
+		keys = append(keys, k)
+	}
+
+	sort.Float64s(keys)
+
+	for i := 1; i <= s.Popsize; i++ {
+		out <- m[keys[len(keys)-i]]
+	}
+}
+
 func (s Selector) SelectDynamically(in <-chan optimizer.Individuum, out chan<- optimizer.Individuum) {
 	var input []optimizer.Individuum
 	var totalAmount int

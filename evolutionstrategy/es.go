@@ -40,7 +40,7 @@ func (es EvolutionStrategy) Optimize(optimized optimizer.IsOptimized, verbose bo
 
 		go pop.streamIndividuals(initial)
 		go mutator.Mutate(initial, mutated)
-		go selector.SelectDynamically(mutated, selected)
+		go selector.SelectSorted(mutated, selected)
 		pop.collectIndividuals(selected)
 		if verbose {
 			fmt.Println(pop)

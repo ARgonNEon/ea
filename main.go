@@ -13,15 +13,15 @@ import (
 )
 
 func main() {
-	demonstrateHillClimber()
-	waitKey()
-	fmt.Println("-------------------------------------------------")
-	demonstrateGeneticAlgorithm()
-	waitKey()
-	fmt.Println("-------------------------------------------------")
-	demonstratePipelinedGeneticAlgorithm()
-	waitKey()
-	fmt.Println("-------------------------------------------------")
+	/*	demonstrateHillClimber()
+		waitKey()
+		fmt.Println("-------------------------------------------------")
+		demonstrateGeneticAlgorithm()
+		waitKey()
+		fmt.Println("-------------------------------------------------")
+		demonstratePipelinedGeneticAlgorithm()
+		waitKey()
+		fmt.Println("-------------------------------------------------")*/
 	demonstrateEvolutionStategy()
 }
 
@@ -66,12 +66,12 @@ func demonstrateEvolutionStategy() {
 	e := evolutionstrategy.EvolutionStrategy{
 		Popsize:       100,
 		Lambda:        7,
-		MaxIterations: 10000,
+		MaxIterations: 1000,
 		UpperBound:    40.0,
 		LowerBound:    -40.0,
 	}
 	result := e.Optimize(func(individuum optimizer.Fitnessable) bool {
-		return individuum.GetPhenotype() < 1e-6
+		return individuum.GetPhenotype() < 1e-9
 	}, true)
 	fmt.Println()
 	fmt.Println("Result: ")
@@ -90,7 +90,7 @@ func demonstratePipelinedGeneticAlgorithm() {
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
 	result := g.OptimizePipelined(func(individuum optimizer.Fitnessable) bool {
-		return individuum.GetPhenotype() < 0.05
+		return individuum.GetPhenotype() < 0.01
 	}, true)
 	fmt.Println()
 	fmt.Println("Result: ")
