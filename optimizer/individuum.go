@@ -1,4 +1,4 @@
-package evolutionstrategy
+package optimizer
 
 import (
 	"bytes"
@@ -8,10 +8,6 @@ import (
 
 	"wesx.de/ArneS/ea/ackley"
 )
-
-type Fitness interface {
-	GetPhenotype() float64
-}
 
 type Individuum []float64
 

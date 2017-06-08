@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"wesx.de/ArneS/ea/ackley"
-	"wesx.de/ArneS/ea/evolutionstrategy"
+	"wesx.de/ArneS/ea/optimizer"
 )
 
 var discretize = NewStandardDiscretizer()
@@ -33,7 +33,7 @@ func (individuum DiscreteIndividuum) GetPhenotype() float64 {
 	return ackley.Ackley(values)
 }
 
-func (individuum DiscreteIndividuum) ToFloatIndividuum() evolutionstrategy.Individuum {
+func (individuum DiscreteIndividuum) ToFloatIndividuum() optimizer.Individuum {
 	values := make([]float64, 0, len(individuum))
 	for _, val := range individuum {
 		values = append(values, discretize.Code2Value(val))
