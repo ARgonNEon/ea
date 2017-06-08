@@ -6,19 +6,23 @@ import (
 	"os"
 
 	"wesx.de/ArneS/ea/ackley"
+	"wesx.de/ArneS/ea/evolutionstrategy"
 	"wesx.de/ArneS/ea/geneticalgorithm"
 	"wesx.de/ArneS/ea/hillclimber"
 	"wesx.de/ArneS/ea/optimizer"
 )
 
 func main() {
-	demonstrateHillClimber()
+	/*demonstrateHillClimber()
 	waitKey()
 	fmt.Println("-------------------------------------------------")
 	demonstrateGeneticAlgorithm()
 	waitKey()
 	fmt.Println("-------------------------------------------------")
 	demonstratePipelinedGeneticAlgorithm()
+	waitKey()
+	fmt.Println("-------------------------------------------------")*/
+	demonstrateEvolutionStategy()
 }
 
 func waitKey() {
@@ -55,6 +59,21 @@ func demonstrateGeneticAlgorithm() {
 	fmt.Println("Result: ")
 	fmt.Println(result)
 	fmt.Println()
+}
+
+func demonstrateEvolutionStategy() {
+	fmt.Println("Evolution Strategy")
+	e := evolutionstrategy.EvolutionStrategy{
+		Popsize:       100,
+		Lambda:        7,
+		MaxIterations: 100,
+		UpperBound:    40.0,
+		LowerBound:    -40.0,
+	}
+	e.Optimize(func(individuum optimizer.Fitnessable) bool {
+		return individuum.GetPhenotype() < 0.05
+	}, true)
+
 }
 
 func demonstratePipelinedGeneticAlgorithm() {

@@ -1,6 +1,10 @@
 package evolutionstrategy
 
-import "wesx.de/ArneS/ea/optimizer"
+import (
+	"fmt"
+
+	"wesx.de/ArneS/ea/optimizer"
+)
 
 type EvolutionStrategy struct {
 	Popsize       int
@@ -13,8 +17,9 @@ type EvolutionStrategy struct {
 func (es EvolutionStrategy) Optimize(optimized optimizer.IsOptimized, verbose bool) optimizer.Individuum {
 	pop := MakePopulation(es.Popsize)
 	startPop := make(chan optimizer.Individuum)
-	es.createStartIndividuals(startPop)
+	go es.createStartIndividuals(startPop)
 	pop.collectIndividuals(startPop)
+	fmt.Println(pop)
 
 	mutator := Mutator{
 		Lambda:     es.Lambda,
@@ -23,13 +28,24 @@ func (es EvolutionStrategy) Optimize(optimized optimizer.IsOptimized, verbose bo
 		Sigma:      1,
 	}
 
-	initial := make(chan optimizer.Individuum)
-	mutated := make(chan optimizer.Individuum)
-	for i := 0; i < es.MaxIterations; i++ {
-		go pop.streamIndividuals(initial)
-		go mutator.Mutate(initial, mutated)
-
+	selector := Selector{
+		Popsize: es.Popsize,
 	}
+
+	for i := 0; i < es.MaxIterations; i++ {
+		initial := make(chan optimizer.Individuum)
+		mutated := make(chan optimizer.Individuum)
+		selected := make(chan optimizer.Individuum)
+
+		go pop.streamIndividuals(initial)
+		go mutator.Identity(initial, mutated)
+		go selector.Select(mutated, selected)
+		pop.collectIndividuals(selected)
+		if verbose {
+			fmt.Println(pop)
+		}
+	}
+	return pop.findBest()
 }
 
 func (es EvolutionStrategy) createStartIndividuals(out chan<- optimizer.Individuum) {

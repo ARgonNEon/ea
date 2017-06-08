@@ -16,17 +16,17 @@ func (s Selector) Select(in <-chan optimizer.Individuum, out chan<- optimizer.In
 	m := make(map[float64]optimizer.Individuum)
 
 	for individuum := range in {
-		m[individuum.GetPhenotype()] = individuum
+		m[math.Exp(-individuum.GetPhenotype())] = individuum
 	}
 
-	keys := make([]float64)
+	keys := make([]float64, len(m))
 	for key := range m {
 		keys = append(keys, key)
 	}
 	sort.Float64s(keys)
 	for i := 0; i < s.Popsize; i++ {
 		for index := 0; index < len(m); index++ {
-			if r := rand.Float64(); r < (1 / math.Pow(2, index)) {
+			if r := rand.Float64(); r < (1 / math.Pow(2, float64(index))) {
 				out <- m[keys[index]]
 			}
 		}

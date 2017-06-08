@@ -23,6 +23,13 @@ func (m Mutator) Mutate(in <-chan optimizer.Individuum, out chan<- optimizer.Ind
 	}
 }
 
+func (m Mutator) Identity(in <-chan optimizer.Individuum, out chan<- optimizer.Individuum) {
+	defer close(out)
+	for individuum := range in {
+		out <- individuum
+	}
+}
+
 func (m Mutator) gaussianMutator(parent optimizer.Individuum) optimizer.Individuum {
 	child := parent.CreateNew()
 	for index, value := range parent {
