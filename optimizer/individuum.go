@@ -12,7 +12,7 @@ import (
 type Individuum []float64
 
 func (individuum Individuum) GetPhenotype() float64 {
-	return ackley.Ackley([]float64(individuum))
+	return ackley.Ackley([]float64(individuum[:6]))
 }
 
 func (individuum Individuum) createFloatString() string {

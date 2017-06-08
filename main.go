@@ -66,7 +66,7 @@ func demonstrateEvolutionStategy() {
 	e := evolutionstrategy.EvolutionStrategy{
 		Popsize:       100,
 		Lambda:        7,
-		MaxIterations: 1000,
+		MaxIterations: 10000,
 		UpperBound:    40.0,
 		LowerBound:    -40.0,
 	}

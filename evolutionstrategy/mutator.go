@@ -8,6 +8,7 @@ import (
 )
 
 type Mutator struct {
+	Popsize    int
 	Lambda     int
 	Sigma      float64
 	UpperBound float64
@@ -38,5 +39,18 @@ func (m Mutator) gaussianMutator(parent optimizer.Individuum) optimizer.Individu
 		child[index] = math.Max(m.LowerBound, child[index])
 		child[index] = math.Min(m.UpperBound, child[index])
 	}
+	return child
+}
+
+func (m Mutator) adaptiveGaussianMutator(parent optimizer.Individuum) optimizer.Individuum {
+	child := parent.CreateNew()
+	sigma := parent[6] * math.Exp(rand.NormFloat64()/math.Sqrt(float64(m.Popsize)))
+	for index, value := range parent[:6] {
+		u := rand.NormFloat64() * parent[6]
+		child[index] = value + u
+		child[index] = math.Max(m.LowerBound, child[index])
+		child[index] = math.Min(m.UpperBound, child[index])
+	}
+	child[6] = sigma
 	return child
 }

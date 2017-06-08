@@ -25,7 +25,7 @@ func (es EvolutionStrategy) Optimize(optimized optimizer.IsOptimized, verbose bo
 		Lambda:     es.Lambda,
 		LowerBound: es.LowerBound,
 		UpperBound: es.UpperBound,
-		Sigma:      1,
+		Sigma:      0.5,
 	}
 
 	selector := Selector{
@@ -50,6 +50,8 @@ func (es EvolutionStrategy) Optimize(optimized optimizer.IsOptimized, verbose bo
 
 func (es EvolutionStrategy) createStartIndividuals(out chan<- optimizer.Individuum) {
 	for i := 0; i < es.Popsize; i++ {
-		out <- optimizer.MakeRandomIndividuum(6, es.LowerBound, es.UpperBound)
+		individuum := optimizer.MakeRandomIndividuum(7, es.LowerBound, es.UpperBound)
+		individuum[6] = 1
+		out <- individuum
 	}
 }
