@@ -16,15 +16,15 @@ type MutateContext struct {
 	MaxAge uint64
 }
 
-type Mutate func(individuals <-chan Individuum, mutated chan<- Individuum, context MutateContext)
+type Mutate func(individuals <-chan DiscreteIndividuum, mutated chan<- DiscreteIndividuum, context MutateContext)
 
-func DummyMutator(individuals <-chan Individuum, mutated chan<- Individuum, context MutateContext) {
+func DummyMutator(individuals <-chan DiscreteIndividuum, mutated chan<- DiscreteIndividuum, context MutateContext) {
 	for individuum := range individuals {
 		mutated <- individuum
 	}
 }
 
-func nonUniformMutator(individuals <-chan Individuum, mutated chan<- Individuum, sigma float64) {
+func nonUniformMutator(individuals <-chan DiscreteIndividuum, mutated chan<- DiscreteIndividuum, sigma float64) {
 	for individuum := range individuals {
 		for i := range individuum {
 			if rand.Intn(2) == 0 {
@@ -35,10 +35,10 @@ func nonUniformMutator(individuals <-chan Individuum, mutated chan<- Individuum,
 	}
 }
 
-func NonUniformMutator(individuals <-chan Individuum, mutated chan<- Individuum, context MutateContext) {
+func NonUniformMutator(individuals <-chan DiscreteIndividuum, mutated chan<- DiscreteIndividuum, context MutateContext) {
 	nonUniformMutator(individuals, mutated, nonUniformSigma)
 }
 
-func AdaptiveGaussianMutator(individuals <-chan Individuum, mutated chan<- Individuum, context MutateContext) {
+func AdaptiveGaussianMutator(individuals <-chan DiscreteIndividuum, mutated chan<- DiscreteIndividuum, context MutateContext) {
 	nonUniformMutator(individuals, mutated, 10 + 1500 * (1 - float64(context.Age)/float64(context.MaxAge)))
 }

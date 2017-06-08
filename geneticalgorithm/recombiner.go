@@ -8,15 +8,15 @@ var (
 	disc = NewStandardDiscretizer()
 )
 
-type Recombine func(parents <-chan Individuum, children chan<- Individuum)
+type Recombine func(parents <-chan DiscreteIndividuum, children chan<- DiscreteIndividuum)
 
-func DummyRecombiner(parents <-chan Individuum, children chan<- Individuum) {
+func DummyRecombiner(parents <-chan DiscreteIndividuum, children chan<- DiscreteIndividuum) {
 	for individuum := range parents {
 		children <- individuum
 	}
 }
 
-func OnePointCrossOver(parents <-chan Individuum, children chan<- Individuum) {
+func OnePointCrossOver(parents <-chan DiscreteIndividuum, children chan<- DiscreteIndividuum) {
 
 	last := <-parents
 	children <- last

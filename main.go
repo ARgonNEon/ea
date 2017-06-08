@@ -1,21 +1,22 @@
 package main
 
 import (
-	"wesx.de/ArneS/ea/ackley"
 	"bufio"
 	"fmt"
+	"os"
+
+	"wesx.de/ArneS/ea/ackley"
 	"wesx.de/ArneS/ea/geneticalgorithm"
 	"wesx.de/ArneS/ea/hillclimber"
-	"os"
 )
 
 func main() {
-	demonstrateHillClimber()
-	waitKey()
-	fmt.Println("-------------------------------------------------")
-	demonstrateGeneticAlgorithm()
-	waitKey()
-	fmt.Println("-------------------------------------------------")
+	//demonstrateHillClimber()
+	//waitKey()
+	//fmt.Println("-------------------------------------------------")
+	//demonstrateGeneticAlgorithm()
+	//waitKey()
+	//fmt.Println("-------------------------------------------------")
 	demonstratePipelinedGeneticAlgorithm()
 }
 
@@ -46,7 +47,7 @@ func demonstrateGeneticAlgorithm() {
 		Recombiner:    geneticalgorithm.OnePointCrossOver,
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
-	result := g.Optimize(func(individuum geneticalgorithm.Individuum) bool {
+	result := g.Optimize(func(individuum geneticalgorithm.DiscreteIndividuum) bool {
 		return individuum.GetPhenotype() < 0.05
 	}, true)
 	fmt.Println()
@@ -64,7 +65,7 @@ func demonstratePipelinedGeneticAlgorithm() {
 		Recombiner:    geneticalgorithm.OnePointCrossOver,
 		Selector:      geneticalgorithm.RemainderStochasticSampling,
 	}
-	result := g.OptimizePipelined(func(individuum geneticalgorithm.Individuum) bool {
+	result := g.OptimizePipelined(func(individuum geneticalgorithm.DiscreteIndividuum) bool {
 		return individuum.GetPhenotype() < 0.05
 	}, true)
 	fmt.Println()
