@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"wesx.de/ArneS/ea/optimizer"
+	"github.com/ARgonNEon/ea/optimizer"
 )
 
 type GeneticAlgorithm struct {

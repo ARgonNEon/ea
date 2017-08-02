@@ -3,7 +3,7 @@ package evolutionstrategy
 import (
 	"fmt"
 
-	"wesx.de/ArneS/ea/optimizer"
+	"github.com/ARgonNEon/ea/optimizer"
 )
 
 type Population struct {

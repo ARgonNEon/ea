@@ -4,7 +4,7 @@ import (
 	"math"
 	"math/rand"
 
-	"wesx.de/ArneS/ea/optimizer"
+	"github.com/ARgonNEon/ea/optimizer"
 )
 
 type Mutator struct {

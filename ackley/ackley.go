@@ -37,4 +37,3 @@ func (input inputSlice) squaredSum() float64 {
 	}
 	return sum
 }
-

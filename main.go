@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"os"
 
-	"wesx.de/ArneS/ea/ackley"
-	"wesx.de/ArneS/ea/evolutionstrategy"
-	"wesx.de/ArneS/ea/geneticalgorithm"
-	"wesx.de/ArneS/ea/hillclimber"
-	"wesx.de/ArneS/ea/optimizer"
+	"github.com/ARgonNEon/ea/ackley"
+	"github.com/ARgonNEon/ea/evolutionstrategy"
+	"github.com/ARgonNEon/ea/geneticalgorithm"
+	"github.com/ARgonNEon/ea/hillclimber"
+	"github.com/ARgonNEon/ea/optimizer"
 )
 
 func main() {
