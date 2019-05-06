@@ -11,7 +11,7 @@ The objective is to solve an optimization problem (minimizing the [ackley functi
 
 ## How to run
 
-```
+```bash
 go get github.com/aaarne/ea
-go run ea_demo.go
+ea # assuming $GOPATH/bin is in your PATH
 ```
