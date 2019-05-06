@@ -1,6 +1,6 @@
 package hillclimber
 
-import "github.com/ARgonNEon/ea/ackley"
+import "github.com/aaarne/ea/ackley"
 
 type Hillclimber struct {
 	Nmax  int

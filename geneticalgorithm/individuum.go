@@ -4,8 +4,8 @@ import (
 	"math/rand"
 	"time"
 
-	"wesx.de/ArneS/ea/ackley"
-	"wesx.de/ArneS/ea/optimizer"
+	"github.com/aaarne/ea/ackley"
+	"github.com/aaarne/ea/optimizer"
 )
 
 var discretize = NewStandardDiscretizer()

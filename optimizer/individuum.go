@@ -6,7 +6,7 @@ import (
 
 	"math/rand"
 
-	"github.com/ARgonNEon/ea/ackley"
+	"github.com/aaarne/ea/ackley"
 )
 
 type Individuum []float64

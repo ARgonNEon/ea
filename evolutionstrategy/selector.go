@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"sort"
 
-	"github.com/ARgonNEon/ea/optimizer"
+	"github.com/aaarne/ea/optimizer"
 )
 
 type Selector struct {

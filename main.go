@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ARgonNEon/ea/ackley"
-	"github.com/ARgonNEon/ea/evolutionstrategy"
-	"github.com/ARgonNEon/ea/geneticalgorithm"
-	"github.com/ARgonNEon/ea/hillclimber"
-	"github.com/ARgonNEon/ea/optimizer"
+	"github.com/aaarne/ea/ackley"
+	"github.com/aaarne/ea/evolutionstrategy"
+	"github.com/aaarne/ea/geneticalgorithm"
+	"github.com/aaarne/ea/hillclimber"
+	"github.com/aaarne/ea/optimizer"
 )
 
 func main() {

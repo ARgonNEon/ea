@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/ARgonNEon/ea/optimizer"
+	"github.com/aaarne/ea/optimizer"
 )
 
 type GeneticAlgorithm struct {
